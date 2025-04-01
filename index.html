@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex justify-center items-center bg-blue-200 h-screen">
+
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="font-bold mb-4 text-2xl">Enter the OTP</h2>
+        <p class="text-sm mb-4 text-lg">We have sent an OTP to your mobile phone.</p>
+        
+        <input type="text" id="otp" class="border border-gray-400 p-2 w-full rounded mb-3" placeholder="Enter OTP, for Verification">
+
+        <p id="error" class="text-red-400 text-sm hidden">Invalid OTP, Please enter a valid OTP</p>
+
+        <button onclick="verifyOTP()" class="bg-blue-400 text-white px-2 py-2 rounded-lg w-full mt-4">Verify OTP</button>
+        
+        <button id="resendBtn" onclick="resendOTP()" class="text-blue-400 text-sm mt-4">Resend OTP</button>
+        
+        <p id="timer" class="text-gray-500 text-xs mt-1 hidden">You can resend in <span id="countdown">30</span>s</p>
+    </div>
+
+</body>
+
+<script>
+    function verifyOTP(){
+        const otp = document.getElementById('otp').value;
+        const error = document.getElementById('error');
+
+        if(/^\d{6}$/.test(otp)){
+            alert("OTP verified successfully!");
+            error.classList.add('hidden');
+        } else {
+            error.classList.remove('hidden');
+        }
+    }
+
+    function resendOTP(){
+        const resendBtn = document.getElementById("resendBtn");
+        const timer = document.getElementById("timer");
+        const countdown = document.getElementById("countdown");
+
+        alert("A new OTP has been sent...");
+        resendBtn.disabled = true;
+        timer.classList.remove("hidden");
+
+        let timeLeft = 30;
+        countdown.textContent = timeLeft;
+
+        const interval = setInterval(() => {
+            timeLeft--;
+            countdown.textContent = timeLeft;
+
+            if (timeLeft === 0) {
+                clearInterval(interval);
+                resendBtn.disabled = false;
+                timer.classList.add("hidden");
+            }
+        }, 1000);
+    }
+</script>
+
+</html>
